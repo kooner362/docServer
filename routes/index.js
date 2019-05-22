@@ -3,8 +3,6 @@ const router = express.Router();
 const Document = require('../models/Document');
 const base64Img = require('base64-img');
 const fs = require('fs');
-const multer  = require('multer');
-var upload = multer({ dest: 'public/files/' });
 
 /* GET home page. */
 router.post('/', function(req, res, next) {
