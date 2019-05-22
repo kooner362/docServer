@@ -13,8 +13,11 @@ router.post('/', function(req, res, next) {
   doc.dateCreated = new Date();
   doc.tags = [];
   const image = req.body.data;
-  const filename = req.body.fileName;
+  let filename = req.body.fileName;
+  filename = filename.slice(0, filename.indexOf('.'));
+  filename = filename + '.JPG';
   doc.fileLocation = 'public/files/' + filename;
+  filename = filename.slice(0, filename.indexOf('.'));
   base64Img.img('data:image/jpeg;base64,' + image, 'public/files', filename, function(err, filepath) {
     doc.save((err, done) => {
       if(done) {
@@ -22,8 +25,6 @@ router.post('/', function(req, res, next) {
       }
     });
   });
-
-
 });
 
 router.get('/:id', function(req, res, next) {
