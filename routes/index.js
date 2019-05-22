@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Document = require('../models/Document');
+const Address = require('../models/Address');
 const base64Img = require('base64-img');
 const fs = require('fs');
 
@@ -30,6 +31,17 @@ router.get('/:id', function(req, res, next) {
   Document.find({address: address}, function(err, doc) {
     res.json(doc);
   });
+});
+
+router.post('/address', function(req, res) {
+  const address = req.body.address;
+  let add = new Address();
+  add.address = address;
+  add.save(function(err, done) {
+    if (done) {
+      res.sendStatus(200);
+    }
+  })
 });
 
 module.exports = router;
