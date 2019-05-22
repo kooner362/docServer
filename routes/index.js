@@ -26,6 +26,12 @@ router.post('/', function(req, res, next) {
   });
 });
 
+router.get('/address', function(req, res) {
+  Address.find({}, function(err, docs) {
+    res.json(docs);
+  });
+});
+
 router.get('/:id', function(req, res, next) {
   const address = req.params.id;
   Document.find({address: address}, function(err, doc) {
@@ -42,12 +48,6 @@ router.post('/address', function(req, res) {
       res.sendStatus(200);
     }
   })
-});
-
-router.get('/address', function(req, res) {
-  Address.find({}, function(err, docs) {
-    res.json(docs);
-  });
 });
 
 module.exports = router;
