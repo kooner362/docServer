@@ -44,4 +44,10 @@ router.post('/address', function(req, res) {
   })
 });
 
+router.get('/address', function(req, res) {
+  Address.find({}, function(err, docs) {
+    res.json(docs);
+  });
+});
+
 module.exports = router;
