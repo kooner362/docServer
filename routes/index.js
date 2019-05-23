@@ -2,10 +2,28 @@ const express = require('express');
 const router = express.Router();
 const Document = require('../models/Document');
 const Address = require('../models/Address');
+const Tag = require('../models/Tag');
 const base64Img = require('base64-img');
 const fs = require('fs');
 
 /* GET home page. */
+router.get('/tags', function(req, res) {
+  Tag.find({}, function(err, docs) {
+    res.json(docs);
+  });
+});
+
+router.post('/tags', function(req, res) {
+  const tag = req.body.tag;
+  let new_tag = new Tag();
+  new_tag.name = tag;
+  new_tag.save(function(err, done) {
+    if (done) {
+      res.sendStatus(200);
+    }
+  })
+});
+
 router.post('/', function(req, res, next) {
   let doc = new Document();
   doc.address = req.body.address;
