@@ -14,21 +14,31 @@ router.get('/tags', function(req, res) {
 });
 
 router.post('/tags', function(req, res) {
-  const tag = req.body.tag;
-  let new_tag = new Tag();
-  new_tag.name = tag;
-  new_tag.save(function(err, done) {
-    if (done) {
+  const tags = req.body.tags;
+  let count = 0;
+  tags.forEach(function(tag) {
+    let new_tag = new Tag();
+    new_tag.name = tag;
+    new_tag.save(function(err, done) {
+      if (done) {
+        count++
+      }
+    });
+  });
+
+  while (count !== tags.length) {
+    if (count === tags.length - 1 ) {
+      count++;
       res.sendStatus(200);
     }
-  })
+  }
 });
 
 router.post('/', function(req, res, next) {
   let doc = new Document();
   doc.address = req.body.address;
   doc.dateCreated = new Date();
-  doc.tags = [];
+  doc.tags = req.body.tags;
   const image = req.body.data;
   let filename = req.body.fileName;
   filename = filename.slice(0, filename.indexOf('.'));
@@ -38,7 +48,7 @@ router.post('/', function(req, res, next) {
   base64Img.img('data:image/jpeg;base64,' + image, 'public/files', filename, function(err, filepath) {
     doc.save((err, done) => {
       if(done) {
-        res.sendStatus(200);
+        res.json(doc.tags);
       }
     });
   });
