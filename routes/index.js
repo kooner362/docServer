@@ -22,16 +22,12 @@ router.post('/tags', function(req, res) {
     new_tag.save(function(err, done) {
       if (done) {
         count++
+        if(count === tags.length - 1) {
+          res.sendStatus(200);
+        }
       }
     });
   });
-
-  while (count !== tags.length) {
-    if (count === tags.length - 1 ) {
-      count++;
-      res.sendStatus(200);
-    }
-  }
 });
 
 router.post('/', function(req, res, next) {
