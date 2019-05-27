@@ -18,7 +18,7 @@ router.post('/tags', function(req, res) {
   let count = 0;
   tags.forEach(function(tag) {
     let new_tag = new Tag();
-    new_tag.name = tag;
+    new_tag.name = tag.name;
     new_tag.save(function(err, done) {
       if (done) {
         count++
@@ -34,7 +34,11 @@ router.post('/', function(req, res, next) {
   let doc = new Document();
   doc.address = req.body.address;
   doc.dateCreated = new Date();
-  doc.tags = req.body.tags;
+  let tags = [];
+  req.body.tags.forEach(function(tag) {
+    tags.push(tag.name);
+  });
+  doc.tags = tags;
   const image = req.body.data;
   let filename = req.body.fileName;
   filename = filename.slice(0, filename.indexOf('.'));
