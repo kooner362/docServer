@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Document = require('../models/Document');
-const Address = require('../models/Address');
-const Tag = require('../models/Tags');
+const Document = require('../models/document');
+const Address = require('../models/address');
+const Tag = require('../models/tags');
 const base64Img = require('base64-img');
 const fs = require('fs');
 
