@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
   const image = req.body.data;
   let filename = req.body.fileName;
   filename = filename.slice(0, filename.indexOf('.'));
-  filename = filename + '.JPG';
+  filename = filename + '.jpg';
   doc.fileLocation = 'public/files/' + filename;
   filename = filename.slice(0, filename.indexOf('.'));
   base64Img.img('data:image/jpeg;base64,' + image, 'public/files', filename, function(err, filepath) {
