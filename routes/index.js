@@ -41,7 +41,6 @@ router.post('/', function(req, res, next) {
   doc.tags = tags;
   const image = req.body.data;
   let filename = req.body.fileName;
-  console.log(filename)
   filename = filename.slice(0, filename.indexOf('.'));
   filename = filename + '.jpg';
   doc.fileLocation = 'public/files/' + filename;
@@ -78,5 +77,15 @@ router.post('/address', function(req, res) {
     }
   })
 });
+
+function generateFilename() {
+  const letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let filename = '';
+  while (filename.length < 10) {
+    const letterIndex = Math.floor(Math.random() * 62);
+    filename += letters[letterIndex];
+  }
+  return filename;
+}
 
 module.exports = router;
