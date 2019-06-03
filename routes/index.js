@@ -41,6 +41,7 @@ router.post('/', function(req, res, next) {
   doc.tags = tags;
   const image = req.body.data;
   let filename = req.body.fileName;
+  console.log(filename)
   filename = filename.slice(0, filename.indexOf('.'));
   filename = filename + '.jpg';
   doc.fileLocation = 'public/files/' + filename;
