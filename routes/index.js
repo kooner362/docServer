@@ -85,6 +85,7 @@ function generateFilename() {
     const letterIndex = Math.floor(Math.random() * 62);
     filename += letters[letterIndex];
   }
+  filename += '.jpg';
   return filename;
 }
 
