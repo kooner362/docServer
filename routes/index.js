@@ -95,9 +95,9 @@ router.post('/trades/', function(req, res) {
   const phone_number = req.body.phone_number;
   const category = req.body.category;
   const cost = req.body.cost;
-  Trade.findOne({address: address, category: category}, function(err, result) {
+  Trade.findOne({phone_number: phone_number}, function(err, result) {
     if (result) {
-
+      res.sendStatus(400);
     } else {
       let new_trade = new Trade();
       new_trade.name = name;
@@ -106,11 +106,22 @@ router.post('/trades/', function(req, res) {
       new_trade.sites = [{address: address, cost: cost}];
       new_trade.save(function(err, done) {
         if (done) {
-          res.send();
+          res.sendStatus(200);
         }
       });
     }
   }); 
+});
+
+router.patch('/trades', function( req, res) {
+  const address =  req.body.address;
+  const name = req.body.name;
+  const phone_number = req.body.phone_number;
+  const category = req.body.category;
+  const cost = req.body.cost;
+  Trade.findOne({phone_number: phone_number}, function(err, result) {
+
+  });
 });
 
 router.get('/trades/:address/', function(req, res) {
