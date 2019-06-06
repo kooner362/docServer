@@ -82,6 +82,20 @@ router.post('/address', function(req, res) {
   })
 });
 
+router.get('/trades', function(req, res) {
+
+});
+
+router.post('/trades/', function(req, res) {
+
+});
+
+router.get('/trades/:address', function(req, res) {
+
+});
+
+
+
 function generateFilename() {
   const letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let filename = '';
