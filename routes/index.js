@@ -3,6 +3,7 @@ const router = express.Router();
 const Document = require('../models/document');
 const Address = require('../models/address');
 const Tag = require('../models/tags');
+const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 
@@ -83,15 +84,40 @@ router.post('/address', function(req, res) {
 });
 
 router.get('/trades', function(req, res) {
-
+  Trade.find({}, function(err, trades) {
+    res.json(trades);
+  });
 });
 
 router.post('/trades/', function(req, res) {
+  const address =  req.body.address;
+  const name = req.body.name;
+  const phone_number = req.body.phone_number;
+  const category = req.body.category;
+  const cost = req.body.cost;
+  Trade.findOne({address: address, category: category}, function(err, result) {
+    if (result) {
 
+    } else {
+      let new_trade = new Trade();
+      new_trade.name = name;
+      new_trade.phone_number = phone_number;
+      new_trade.category = category;
+      new_trade.sites = [{address: address, cost: cost}];
+      new_trade.save(function(err, done) {
+        if (done) {
+          res.send();
+        }
+      });
+    }
+  }); 
 });
 
-router.get('/trades/:address', function(req, res) {
-
+router.get('/trades/:address/', function(req, res) {
+  const address = req.params.address;
+  Trade.find({address: address}, function(err, trades) {
+    res.json(trades);
+  });
 });
 
 
