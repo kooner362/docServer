@@ -113,6 +113,7 @@ router.post('/trades/', function(req, res) {
   }); 
 });
 
+//Needs testing 
 router.patch('/trades', function( req, res) {
   const address =  req.body.address;
   const name = req.body.name;
@@ -145,8 +146,6 @@ router.get('/trades/:address/', function(req, res) {
     res.json(trades);
   });
 });
-
-
 
 function generateFilename() {
   const letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
