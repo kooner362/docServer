@@ -65,24 +65,6 @@ router.get('/address', function(req, res) {
   });
 });
 
-router.get('/:id', function(req, res, next) {
-  const address = req.params.id;
-  Document.find({address: address}, function(err, doc) {
-    res.json(doc);
-  });
-});
-
-router.post('/address', function(req, res) {
-  const address = req.body.address;
-  let add = new Address();
-  add.address = address;
-  add.save(function(err, done) {
-    if (done) {
-      res.sendStatus(200);
-    }
-  })
-});
-
 router.get('/trades', function(req, res) {
   Trade.find({}, function(err, trades) {
     res.json(trades);
@@ -145,6 +127,24 @@ router.get('/trades/:address/', function(req, res) {
   Trade.find({address: address}, function(err, trades) {
     res.json(trades);
   });
+});
+
+router.get('/:id', function(req, res, next) {
+  const address = req.params.id;
+  Document.find({address: address}, function(err, doc) {
+    res.json(doc);
+  });
+});
+
+router.post('/address', function(req, res) {
+  const address = req.body.address;
+  let add = new Address();
+  add.address = address;
+  add.save(function(err, done) {
+    if (done) {
+      res.sendStatus(200);
+    }
+  })
 });
 
 function generateFilename() {
