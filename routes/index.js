@@ -120,7 +120,22 @@ router.patch('/trades', function( req, res) {
   const category = req.body.category;
   const cost = req.body.cost;
   Trade.findOne({phone_number: phone_number}, function(err, result) {
-
+    if (result) {
+      let index = -1;
+      result.sites.forEach(function(site) {
+        index++;
+        if (site.address === address) {
+          result.sites[index].cost = cost;
+        }
+      });
+      Trade.findOneAndUpdate({phone_number: phone_number},
+        {'$set': {name: name, phone_number: phone_number, category: category, sites: result.sites}}, 
+        function(err, update) {
+        if(update) {
+          res.send();
+        }
+      });
+    }
   });
 });
 
