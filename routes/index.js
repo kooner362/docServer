@@ -92,6 +92,17 @@ router.post('/trades', function(req, res) {
   }); 
 });
 
+router.delete('/trades', function(req,res) {
+  const phone_number = req.body.phone_number;
+  Trade.findOneAndDelete({phone_number: phone_number}, function(err, result) {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 //Needs testing 
 router.patch('/trades', function( req, res) {
   const address =  req.body.address;
