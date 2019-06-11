@@ -72,6 +72,7 @@ router.get('/trades', function(req, res) {
 });
 
 router.post('/trades', function(req, res) {
+  console.log('hit')
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
