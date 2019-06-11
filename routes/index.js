@@ -23,7 +23,7 @@ router.post('/tags', function(req, res) {
     new_tag.save(function(err, done) {
       if (done) {
         count++
-        if(count === tags.length - 1) {
+        if(count === tags.length) {
           res.sendStatus(200);
         }
       }
