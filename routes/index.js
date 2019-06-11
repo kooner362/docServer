@@ -72,19 +72,23 @@ router.get('/trades', function(req, res) {
 });
 
 router.post('/trades', function(req, res) {
-  console.log('hit')
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
-  console.log(name, phone_number, category)
   Trade.findOne({phone_number: phone_number}, function(err, result) {
+    console.log('hit')
+
     if (result) {
+      console.log('hit1')
+
       res.sendStatus(400);
     } else {
+      console.log('hit2')
+
       let new_trade = new Trade();
       new_trade.name = name;
       new_trade.phone_number = phone_number;
-      new_trade.category = category;
+      new_trade.category = category.name;
       new_trade.save(function(err, done) {
         if (done) {
           res.sendStatus(200);
