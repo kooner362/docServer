@@ -76,6 +76,7 @@ router.post('/trades', function(req, res) {
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
+  console.log(name, phone_number, category)
   Trade.findOne({phone_number: phone_number}, function(err, result) {
     if (result) {
       res.sendStatus(400);
