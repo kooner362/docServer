@@ -126,7 +126,7 @@ router.patch('/trades', function( req, res) {
     function(err, update) {
       if(update) {
         console.log(update)
-        res.sendJSON(update);
+        res.sendStatus(200);
       }
   });
 
