@@ -107,8 +107,15 @@ router.patch('/trades', function( req, res) {
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
+  const old_number = req.body.old_number;
 
-  Trade.findOneAndUpdate({phone_number: phone_number},
+  console.log(name);
+  console.log(phone_number);
+  console.log(old_number);
+  console.log(category);
+
+
+  Trade.findOneAndUpdate({phone_number: old_number},
     {
       '$set': {
         name: name, 
