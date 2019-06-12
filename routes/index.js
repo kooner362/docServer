@@ -65,6 +65,16 @@ router.get('/address', function(req, res) {
   });
 });
 
+router.post('/trade', function(req, res) {
+  const phone_number = req.body.phone_number;
+  const address = req.body.address;
+  const cost = req.body.cost;
+  Trade.findOne({phone_number: phone_number}, function(err, result) {
+    let sites = result.sites;
+    sites.push({address: address, cost: cost})
+  });
+});
+
 router.get('/trades', function(req, res) {
   Trade.find({}, function(err, trades) {
     res.json(trades);
