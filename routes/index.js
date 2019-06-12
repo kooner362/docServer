@@ -112,7 +112,7 @@ router.patch('/trades', function( req, res) {
   console.log(name);
   console.log(phone_number);
   console.log(old_number);
-  console.log(category);
+  console.log(category.name);
 
 
   Trade.findOneAndUpdate({phone_number: old_number},
@@ -120,13 +120,14 @@ router.patch('/trades', function( req, res) {
       '$set': {
         name: name, 
         phone_number: phone_number, 
-        category: category
+        category: category.name
       }
     }, 
     function(err, update) {
-    if(update) {
-      res.send(update);
-    }
+      if(update) {
+        console.log(update)
+        res.sendJSON(update);
+      }
   });
 
 });
