@@ -103,31 +103,25 @@ router.delete('/trades', function(req,res) {
   });
 });
 
-//Needs testing 
 router.patch('/trades', function( req, res) {
-  const address =  req.body.address;
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
-  const cost = req.body.cost;
-  Trade.findOne({phone_number: phone_number}, function(err, result) {
-    if (result) {
-      let index = -1;
-      result.sites.forEach(function(site) {
-        index++;
-        if (site.address === address) {
-          result.sites[index].cost = cost;
-        }
-      });
-      Trade.findOneAndUpdate({phone_number: phone_number},
-        {'$set': {name: name, phone_number: phone_number, category: category, sites: result.sites}}, 
-        function(err, update) {
-        if(update) {
-          res.send();
-        }
-      });
+
+  Trade.findOneAndUpdate({phone_number: phone_number},
+    {
+      '$set': {
+        name: name, 
+        phone_number: phone_number, 
+        category: category
+      }
+    }, 
+    function(err, update) {
+    if(update) {
+      res.send(update);
     }
   });
+
 });
 
 router.get('/trades/:address/', function(req, res) {
