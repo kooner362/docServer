@@ -93,6 +93,7 @@ router.post('/trades', function(req, res) {
 });
 
 router.delete('/trades', function(req,res) {
+  console.log(req.body)
   const phone_number = req.body.phone_number;
   Trade.findOneAndDelete({phone_number: phone_number}, function(err, result) {
     if (err) {
