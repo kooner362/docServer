@@ -85,7 +85,7 @@ router.post('/trades', function(req, res) {
       new_trade.category = category.name;
       new_trade.save(function(err, done) {
         if (done) {
-          res.sendStatus(200);
+          res.send(done);
         }
       });
     }
