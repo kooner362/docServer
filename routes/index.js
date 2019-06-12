@@ -109,12 +109,6 @@ router.patch('/trades', function( req, res) {
   const category = req.body.category;
   const old_number = req.body.old_number;
 
-  console.log(name);
-  console.log(phone_number);
-  console.log(old_number);
-  console.log(category.name);
-
-
   Trade.findOneAndUpdate({phone_number: old_number},
     {
       '$set': {
@@ -125,11 +119,9 @@ router.patch('/trades', function( req, res) {
     }, 
     function(err, update) {
       if(update) {
-        console.log(update)
         res.sendStatus(200);
       }
   });
-
 });
 
 router.get('/trades/:address/', function(req, res) {
