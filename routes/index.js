@@ -65,6 +65,32 @@ router.get('/address', function(req, res) {
   });
 });
 
+router.delete('/trade', function(req, res) {
+  const phone_number = req.body.phone_number;
+  const address = req.body.address;
+  Trade.findOne({phone_number: phone_number}, function(err, trade) {
+    if (trade) {
+      let sites = [];
+      trade.sites.forEach(function(site) {
+        if (site.address !== address) {
+          sites.push(site);
+        }
+      });
+      Trade.findOneAndUpdate({phone_number: phone_number}, {'$set': {sites: sites}}, function(err, updated) {
+        if(updated) {
+          res.sendStatus(200);
+        }
+        else {
+          res.sendStatus(400);
+        }
+      })
+    } else {
+      res.sendStatus(400);
+    }
+
+  });
+});
+
 router.post('/trade', function(req, res) {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
