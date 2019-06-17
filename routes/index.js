@@ -68,6 +68,9 @@ router.get('/address', function(req, res) {
 router.delete('/trade', function(req, res) {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
+  console.log(phone_number)
+  console.log(address)
+  
   Trade.findOne({phone_number: phone_number}, function(err, trade) {
     if (trade) {
       let sites = [];
