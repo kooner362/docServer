@@ -108,7 +108,7 @@ router.post('/trade', function(req, res) {
   });
 });
 
-router.patch('trade', function(req, res) {
+router.patch('/trade', function(req, res) {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
   const cost = req.body.cost;
