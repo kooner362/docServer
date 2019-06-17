@@ -108,6 +108,31 @@ router.post('/trade', function(req, res) {
   });
 });
 
+router.patch('trade', function(req, res) {
+  const phone_number = req.body.phone_number;
+  const address = req.body.address;
+  const cost = req.body.cost;
+  Trade.findOne({phone_number: phone_number}, function(err, trade) {
+    if (trade) {
+      let sites = trade.sites;
+      sites.forEach((site) => {
+        if (site.address === address) {
+          site.cost = cost;
+        }
+      });
+      Trade.findOneAndUpdate({phone_number: phone_number}, {'$set': {sites: sites}}, function(err, done) {
+        if (done) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(400);
+        }
+      });
+    } else {
+      res.sendStatus(400);
+    }
+  });
+});
+
 router.get('/trades', function(req, res) {
   Trade.find({}, function(err, trades) {
     res.json(trades);
