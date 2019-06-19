@@ -54,11 +54,11 @@ router.post('/login', (req, res) => {
         if (resp) {
           res.sendStatus(200);
         } else {
-          res.sendStatus(404); //bad password
+          res.json({user: true, password: false}); //bad password
         }
       });
     } else {
-      res.sendStatus(400); //bad user email
+      res.json({user: true, password: false}); //bad user email
     }
   });
 });
