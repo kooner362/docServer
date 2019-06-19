@@ -50,8 +50,8 @@ router.post('/login', (req, res) => {
   const password = req.body.password;
   User.findOne({email: email}, (err, user) => {
     if (user) {
-      bcrypt.compare(password, user.password, function(err, res) {
-        if (res) {
+      bcrypt.compare(password, user.password, function(err, resp) {
+        if (resp) {
           res.sendStatus(200);
         } else {
           res.sendStatus(404); //bad password
