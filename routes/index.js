@@ -58,7 +58,7 @@ router.post('/login', (req, res) => {
         }
       });
     } else {
-      res.json({user: true, password: false}); //bad user email
+      res.json({user: false, password: true}); //bad user email
     }
   });
 });
