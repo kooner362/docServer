@@ -52,7 +52,7 @@ router.post('/login', (req, res) => {
     if (user) {
       bcrypt.compare(password, user.password, function(err, resp) {
         if (resp) {
-          res.sendStatus(200);
+          res.json({user: true, password: true});
         } else {
           res.json({user: true, password: false}); //bad password
         }
