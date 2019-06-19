@@ -8,13 +8,17 @@ const base64Img = require('base64-img');
 const fs = require('fs');
 
 /* GET home page. */
-router.get('/tags', function(req, res) {
+router.get('/tags', (req, res) => {
   Tag.find({}, function(err, docs) {
     res.json(docs);
   });
 });
 
-router.post('/tags', function(req, res) {
+router.post('/register', (req, res) => {
+
+});
+
+router.post('/tags', (req, res) => {
   const tags = req.body.tags;
   let count = 0;
   tags.forEach(function(tag) {
@@ -31,7 +35,7 @@ router.post('/tags', function(req, res) {
   });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', (req, res, next) => {
   let doc = new Document();
   doc.address = req.body.address;
   doc.dateCreated = new Date();
@@ -59,17 +63,17 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.get('/address', function(req, res) {
+router.get('/address', (req, res) => {
   Address.find({}, function(err, docs) {
     res.json(docs);
   });
 });
 
-router.delete('/trade', function(req, res) {
+router.delete('/trade', (req, res) => {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
 
-  Trade.findOne({phone_number: phone_number}, function(err, trade) {
+  Trade.findOne({phone_number: phone_number}, (err, trade) => {
     if (trade) {
       let sites = [];
       trade.sites.forEach(function(site) {
@@ -91,7 +95,7 @@ router.delete('/trade', function(req, res) {
   });
 });
 
-router.post('/trade', function(req, res) {
+router.post('/trade', (req, res) => {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
   const cost = req.body.cost;
@@ -108,7 +112,7 @@ router.post('/trade', function(req, res) {
   });
 });
 
-router.patch('/trade', function(req, res) {
+router.patch('/trade', (req, res) => {
   const phone_number = req.body.phone_number;
   const address = req.body.address;
   const cost = req.body.cost;
@@ -133,13 +137,13 @@ router.patch('/trade', function(req, res) {
   });
 });
 
-router.get('/trades', function(req, res) {
+router.get('/trades', (req, res) => {
   Trade.find({}, function(err, trades) {
     res.json(trades);
   });
 });
 
-router.post('/trades', function(req, res) {
+router.post('/trades', (req, res) => {
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
@@ -160,7 +164,7 @@ router.post('/trades', function(req, res) {
   }); 
 });
 
-router.delete('/trades', function(req,res) {
+router.delete('/trades', (req,res) => {
   const phone_number = req.body.phone_number;
   Trade.findOneAndDelete({phone_number: phone_number}, function(err, result) {
     if (err) {
@@ -171,7 +175,7 @@ router.delete('/trades', function(req,res) {
   });
 });
 
-router.patch('/trades', function( req, res) {
+router.patch('/trades', ( req, res) => {
   const name = req.body.name;
   const phone_number = req.body.phone_number;
   const category = req.body.category;
@@ -192,21 +196,21 @@ router.patch('/trades', function( req, res) {
   });
 });
 
-router.get('/trades/:address/', function(req, res) {
+router.get('/trades/:address/', (req, res) => {
   const address = req.params.address;
   Trade.find({address: address}, function(err, trades) {
     res.json(trades);
   });
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', (req, res, next) => {
   const address = req.params.id;
   Document.find({address: address}, function(err, doc) {
     res.json(doc);
   });
 });
 
-router.post('/address', function(req, res) {
+router.post('/address', (req, res) => {
   const address = req.body.address;
   let add = new Address();
   add.address = address;
