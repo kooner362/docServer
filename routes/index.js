@@ -26,13 +26,23 @@ router.post('/register', (req, res) => {
   if (password === password1) {
     crypt.genSalt(saltRounds, function(err, salt) {
       bcrypt.hash(password, 10, function(err, hash) {
-          let User = new User();
+          let user = new User();
+          user.first_name = first_name;
+          user.last_name = last_name;
+          user.email = email;
+          user.password = hash;
+          user.save((err, done) => {
+            if (done) {
+              res.sendStatus(200);
+            } else {
+              res.sendStatus(400);
+            }
+          });
       });
     });
   } else {
     res.sendStatus(400);
   }
-  
 });
 
 router.post('/tags', (req, res) => {
