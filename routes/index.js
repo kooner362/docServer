@@ -24,8 +24,8 @@ router.post('/register', (req, res) => {
   const password1 = req.body.password1;
 
   if (password === password1) {
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-      bcrypt.hash(password, 10, function(err, hash) {
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(password, salt, function(err, hash) {
           let user = new User();
           user.first_name = first_name;
           user.last_name = last_name;
