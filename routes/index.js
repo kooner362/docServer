@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Document = require('../models/document');
+const User = require('../models/user');
 const Address = require('../models/address');
 const Tag = require('../models/tags');
 const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 /* GET home page. */
 router.get('/tags', (req, res) => {
@@ -15,7 +17,22 @@ router.get('/tags', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const password1 = req.body.password1;
 
+  if (password === password1) {
+    crypt.genSalt(saltRounds, function(err, salt) {
+      bcrypt.hash(password, 10, function(err, hash) {
+          let User = new User();
+      });
+    });
+  } else {
+    res.sendStatus(400);
+  }
+  
 });
 
 router.post('/tags', (req, res) => {
