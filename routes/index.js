@@ -45,6 +45,26 @@ router.post('/register', (req, res) => {
   }
 });
 
+router.post('/login', (req, res) => {
+  const email =  req.body.email;
+  const password = req.body.password;
+  User.findOne({email: email}, (err, user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, function(err, res) {
+        if (res) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404); //bad password
+        }
+      });
+    } else {
+      res.sendStatus(400); //bad user email
+    }
+  });
+});
+
+
+
 router.post('/tags', (req, res) => {
   const tags = req.body.tags;
   let count = 0;
