@@ -148,7 +148,7 @@ router.post('/trade', (req, res) => {
   const cost = req.body.cost;
   Trade.findOne({phone_number: phone_number}, function(err, result) {
     let sites = result.sites;
-    sites.push({address: address.address, cost: cost})
+    sites.push({address: address, cost: cost})
     Trade.findOneAndUpdate({phone_number: phone_number}, {'$set': {sites: sites}}, function(err, done) {
       if (done) {
         res.sendStatus(200);
