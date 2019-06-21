@@ -86,7 +86,7 @@ router.patch('/', (req, res) => {
   const id =  req.body.id;
   const category = req.body.category;
 
-  Document.findOneAndUpdate({_id: id}, {'$set': {category: category}}, (err, done) => {
+  Document.findOneAndUpdate({_id: id}, {'$set': {tags: [category]}}, (err, done) => {
     if (done) {
       res.sendStatus(200);
     } else {
