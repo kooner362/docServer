@@ -95,6 +95,17 @@ router.patch('/', (req, res) => {
   });
 });
 
+router.delete('/', (req, res) => {
+  const id = req.body.id;
+  Document.findOneAndDelete({_id: id}, (err, done) => {
+    if (done) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+});
+
 router.post('/', (req, res, next) => {
   let doc = new Document();
   doc.address = req.body.address;
