@@ -82,6 +82,19 @@ router.post('/tags', (req, res) => {
   });
 });
 
+router.patch('/', (req, res) => {
+  const id =  req.body.id;
+  const category = req.body.category;
+
+  Document.findOneAndUpdate({_id: id}, {'$set': {category: category}}, (err, done) => {
+    if (done) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+  });
+});
+
 router.post('/', (req, res, next) => {
   let doc = new Document();
   doc.address = req.body.address;
