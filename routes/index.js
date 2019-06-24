@@ -97,6 +97,7 @@ router.patch('/', (req, res) => {
 
 router.delete('/', (req, res) => {
   const id = req.body.id;
+  console.log(id)
   Document.findOneAndDelete({_id: id}, (err, done) => {
     if (done) {
       res.sendStatus(200);
