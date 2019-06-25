@@ -308,8 +308,8 @@ function generateFilename() {
   return filename;
 }
 
-  async function compressit (fileName) {
-    console.log(fileName)
+function compressit (fileName) {
+  (async (fileName) => {
     const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
@@ -319,6 +319,7 @@ function generateFilename() {
  
     console.log(files);
     //=> [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
-  };
+  })();
+}
 
 module.exports = router;
