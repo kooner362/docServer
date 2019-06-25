@@ -8,8 +8,9 @@ const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
-import compress from 'image-file-compress';
-
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 
 /* GET home page. */
 router.get('/compress', (req, res) => {
@@ -311,18 +312,17 @@ function generateFilename() {
 }
 
 function compressit() {
-  compress( 'public/files/', {
-    rotate : true,
-    zoom: true,
-    max_width: 800,
-    max_height: 600,
-    output_type : 'image/jpg',
-  })
-  .then( res => {
-    // res.path : <base64>
-    // res.data : <blob>
-  });
-
+  (async () => {
+    const files = await imagemin(['images/*.{jpg,png}'], 'build/images', {
+        plugins: [
+            imageminJpegtran(),
+            imageminPngquant({quality: '65-80'})
+        ]
+    });
+ 
+    console.log(files);
+    //=> [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
+  })();
 }
 
 module.exports = router;
