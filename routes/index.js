@@ -310,7 +310,7 @@ function generateFilename() {
 
 function compressit (fileName) {
   (async (fileName) => {
-    const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
+    const files = await imagemin([`public/temp/IMG_0002.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
             imageminPngquant({quality: '65-80'})
