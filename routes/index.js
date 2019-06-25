@@ -8,13 +8,13 @@ const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const compress = 'image-file-compress';
+
 
 /* GET home page. */
 router.get('/compress', (req, res) => {
-  let compress = compressImages('public/files', 'public');
-  if (compress) {
-    res.sendStatus(200);
-  }
+  compress()
+  res.sendStatus(200);
 })
 
 router.get('/tags', (req, res) => {
@@ -308,6 +308,21 @@ function generateFilename() {
   }
   filename += '.jpg';
   return filename;
+}
+
+function compress() {
+  compress( 'public/files/', {
+    rotate : true,
+    zoom: true,
+    max_width: 800,
+    max_height: 600,
+    output_type : 'image/jpg',
+  })
+  .then( res => {
+    // res.path : <base64>
+    // res.data : <blob>
+  });
+
 }
 
 module.exports = router;
