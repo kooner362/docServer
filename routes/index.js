@@ -8,11 +8,14 @@ const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
-var gulp = require('gulp');
 var compress_images = require('compress-images');
 
 
 /* GET home page. */
+router.get('/compress', (req, res) => {
+  compressImages('public/files', 'public');
+})
+
 router.get('/tags', (req, res) => {
   Tag.find({}, function(err, docs) {
     res.json(docs);
@@ -304,6 +307,20 @@ function generateFilename() {
   }
   filename += '.jpg';
   return filename;
+}
+
+function compressImages(input_path, output_path) {
+    compress_images(input_path, output_path, {compress_force: false, statistic: true, autoupdate: true}, false,
+                                                {jpg: {engine: 'mozjpeg', command: ['-quality', '60']}},
+                                                {png: {engine: 'pngquant', command: ['--quality=20-50']}},
+                                                {svg: {engine: 'svgo', command: '--multipass'}},
+                                                {gif: {engine: 'gifsicle', command: ['--colors', '64', '--use-col=web']}}, function(error, completed, statistic){
+                console.log('-------------');
+                console.log(error);
+                console.log(completed);
+                console.log(statistic);
+                console.log('-------------');                                   
+    });
 }
 
 module.exports = router;
