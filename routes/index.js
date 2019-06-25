@@ -140,7 +140,9 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/address', (req, res) => {
+  console.log('here')
   Address.find({}, function(err, docs) {
+    console.log(docs)
     res.json(docs);
   });
 });
