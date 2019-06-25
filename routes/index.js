@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const imagemin = require('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
-
+var fileName = '';
 /* GET home page. */
 
 router.get('/tags', (req, res) => {
@@ -132,7 +132,8 @@ router.post('/', (req, res, next) => {
   base64Img.img('data:image/jpeg;base64,' + image, 'public/temp', filename, function(err, filepath) {
     doc.save((err, done) => {
       if(done) {
-        compressit(filename + '.jpg');
+        fileName = filename + '.jpg'
+        compressit();
         setTimeout(function() {
           res.json(doc.tags);
         }, 5000);
@@ -310,8 +311,8 @@ function generateFilename() {
   return filename;
 }
 
-function compressit (fileName) {
-  (async (fileName) => {
+function compressit () {
+  (async () => {
     console.log(fileName)
     const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
