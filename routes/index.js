@@ -8,6 +8,9 @@ const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+var gulp = require('gulp');
+var compress_images = require('compress-images');
+
 
 /* GET home page. */
 router.get('/tags', (req, res) => {
