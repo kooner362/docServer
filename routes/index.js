@@ -13,7 +13,7 @@ const compress = 'image-file-compress';
 
 /* GET home page. */
 router.get('/compress', (req, res) => {
-  compress()
+  compressit()
   res.sendStatus(200);
 })
 
@@ -310,7 +310,7 @@ function generateFilename() {
   return filename;
 }
 
-function compress() {
+function compressit() {
   compress( 'public/files/', {
     rotate : true,
     zoom: true,
