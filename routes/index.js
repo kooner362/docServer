@@ -11,8 +11,85 @@ const bcrypt = require('bcrypt');
 const imagemin = require('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
+var imaps = require('imap-simple');
+const base64 = require('base64topdf');
 var file = '';
 /* GET home page. */
+
+var config = {
+  imap: {
+      user: 'kooner362@gmail.com',
+      password: '154AcZ21',
+      host: 'imap.gmail.com',
+      port: 993,
+      tls: true,
+      authTimeout: 3000
+  }
+};
+
+router.get('/read-email', (req, res) => {
+  imaps.connect(config).then(function (connection) {
+ 
+    connection.openBox('INBOX').then(function () {
+ 
+        var searchCriteria = ['UNSEEN'];
+        var fetchOptions = {
+          bodies: ['HEADER', 'TEXT'],
+          markSeen: false
+      }; 
+        // retrieve only the headers of the messages
+        return connection.search(searchCriteria, fetchOptions);
+    }).then(function (messages) {
+        var attachments = [];
+        messages.forEach(function (message) {
+            if(message.parts[1].body.subject[0] === '452 fleming ave') {
+              attachments.push(message.parts[0].body)
+            }
+        });
+        return Promise.all(attachments);
+    }).then(function (attachments) {
+      let base64pdfs = [];
+      attachments.forEach(attachment => {
+        let beg_index = 0;
+        let found = false;
+        let base_val = '';
+        let attachment_arr = attachment.split('\r\n');
+        while (!found) {
+          if (attachment_arr[beg_index] !== 'Content-Transfer-Encoding: base64') {
+            beg_index++;
+          } else {
+            beg_index += 2;
+            found = true;
+          }
+        }
+
+        found = false;
+        let end_index = beg_index;
+        while (!found) {
+          if (attachment_arr[end_index].length !== 76) {
+            found = true;
+          } else {
+            end_index ++;
+          }
+        }
+
+        for (let i=beg_index; i <= end_index; i++) {
+          base_val += attachment_arr[i];
+        }
+
+        base64pdfs.push(base_val)
+        let decodedBase64 = base64.base64Decode(base_val, 'test.pdf');
+        fs.writeFile("/home/Documents/docServer/test.pdf", decodedBase64, function(err) {
+          if(err) {
+              return console.log(err);
+          }
+          res.json(base64pdfs)
+          console.log("The file was saved!");
+          }); 
+      })
+    });
+});
+});
 
 router.get('/tags', (req, res) => {
   Tag.find({}, function(err, docs) {
