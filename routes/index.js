@@ -13,7 +13,10 @@ var compress_images = require('compress-images');
 
 /* GET home page. */
 router.get('/compress', (req, res) => {
-  compressImages('public/files', 'public');
+  let compress = compressImages('public/files', 'public');
+  if (compress) {
+    res.sendStatus(200);
+  }
 })
 
 router.get('/tags', (req, res) => {
@@ -319,7 +322,10 @@ function compressImages(input_path, output_path) {
                 console.log(error);
                 console.log(completed);
                 console.log(statistic);
-                console.log('-------------');                                   
+                console.log('-------------'); 
+                if (completed) {
+                  return true;
+                }                           
     });
 }
 
