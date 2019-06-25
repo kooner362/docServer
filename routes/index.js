@@ -133,7 +133,9 @@ router.post('/', (req, res, next) => {
     doc.save((err, done) => {
       if(done) {
         compressit(filename + '.jpg');
-        res.json(doc.tags);
+        setTimeout(function() {
+          res.json(doc.tags);
+        }, 5000);
       }
     });
   });
