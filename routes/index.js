@@ -308,7 +308,7 @@ function generateFilename() {
   return filename;
 }
 
-  function compressit (fileName) {
+  async function compressit (fileName) {
     console.log(fileName)
     const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
