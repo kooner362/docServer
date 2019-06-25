@@ -133,7 +133,8 @@ router.post('/', (req, res, next) => {
   }
   doc.fileLocation = 'public/files/' + filename;
   filename = filename.slice(0, filename.indexOf('.'));
-  base64Img.img('data:image/jpeg;base64,' + image, 'public/files', filename, function(err, filepath) {
+  console.log(filename)
+  base64Img.img('data:image/jpeg;base64,' + image, 'public/temp', filename, function(err, filepath) {
     doc.save((err, done) => {
       if(done) {
         res.json(doc.tags);
@@ -311,9 +312,9 @@ function generateFilename() {
   return filename;
 }
 
-function compressit() {
+function compressit(fileName) {
   (async () => {
-    const files = await imagemin(['public/files/*.{jpg,png}'], 'public/images', {
+    const files = await imagemin([`public/files/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
             imageminPngquant({quality: '65-80'})
