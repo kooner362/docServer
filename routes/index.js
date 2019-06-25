@@ -13,10 +13,6 @@ const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
 
 /* GET home page. */
-router.get('/compress', (req, res) => {
-  compressit()
-  res.sendStatus(200);
-})
 
 router.get('/tags', (req, res) => {
   Tag.find({}, function(err, docs) {
