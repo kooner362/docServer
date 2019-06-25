@@ -313,16 +313,12 @@ function generateFilename() {
 
 function compressit () {
   (async () => {
-    console.log(file)
     const files = await imagemin([`public/temp/${file}.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
             imageminPngquant({quality: '65-80'})
         ]
-    });
- 
-    console.log(files);
-    //=> [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
+    }); 
   })();
 }
 
