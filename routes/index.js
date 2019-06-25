@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const imagemin = require('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
-var fileName = '';
+var file = '';
 /* GET home page. */
 
 router.get('/tags', (req, res) => {
@@ -313,7 +313,7 @@ function generateFilename() {
 
 function compressit () {
   (async () => {
-    console.log(fileName)
+    console.log(file)
     const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
