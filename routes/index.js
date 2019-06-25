@@ -125,7 +125,7 @@ router.post('/', (req, res, next) => {
     filename = generateFilename();
   } else {
     filename = filename.slice(0, filename.indexOf('.'));
-    filename = filename + '.jpg';
+    filename = filename;
   }
   doc.fileLocation = 'public/files/' + filename;
   filename = filename.slice(0, filename.indexOf('.'));
@@ -313,7 +313,6 @@ function generateFilename() {
 
 function compressit () {
   (async () => {
-    console.log(fileName)
     const files = await imagemin([`public/temp/${fileName}.{jpg,png}`], 'public/files', {
         plugins: [
             imageminJpegtran(),
