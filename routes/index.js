@@ -8,7 +8,7 @@ const Trade = require('../models/trade');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
-const compress = 'image-file-compress';
+import compress from 'image-file-compress';
 
 
 /* GET home page. */
