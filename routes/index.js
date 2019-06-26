@@ -28,7 +28,7 @@ var config = {
 };
 
 router.get('/read-email', (req, res) => {
-  let address_regex = /[0-9]*\s*[a-zA-Z0-9]*\s*[a-zA-Z0-9]* ave|street|drive|dr|st/;
+  let address_regex = /\d+\s[A-z]+\s{0,1}[A-z]+/i;
   //use str.match(address_regex);
   imaps.connect(config).then(function (connection) {
  
@@ -44,8 +44,9 @@ router.get('/read-email', (req, res) => {
     }).then(function (messages) {
         var attachments = [];
         messages.forEach(function (message) {
-            if(message.parts[1].body.subject[0] === 'Fwd: 1039 Stewart') {
-              attachments.push(message.parts[0].body)
+          let address = message.parts[1].body.subject[0].match(address_regex) ? message.parts[1].body.subject[0].match(address_regex)[0] : null;
+            if(address !== null) {
+              attachments.push({data: message.parts[0].body, address: address})
             }
         });
         return Promise.all(attachments);
@@ -55,7 +56,7 @@ router.get('/read-email', (req, res) => {
         let beg_index = 0;
         let found = false;
         let base_val = '';
-        let attachment_arr = attachment.split('\r\n');
+        let attachment_arr = attachment.data.split('\r\n');
         while (!found) {
           if (attachment_arr[beg_index] !== 'Content-Transfer-Encoding: base64') {
             beg_index++;
@@ -81,9 +82,9 @@ router.get('/read-email', (req, res) => {
         
         base64pdfs.push(base_val)
 
-        let decodedBase64 = base64.base64Decode(base_val, '/home/Documents/docServer/test.pdf');
-        res.json(base64pdfs)
+        let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/${attachment.address}.pdf`);
       })
+      res.json(base64pdfs)
     });
 });
 });
