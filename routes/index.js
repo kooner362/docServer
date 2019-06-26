@@ -49,7 +49,7 @@ router.get('/read-email', (req, res) => {
         });
         return Promise.all(attachments);
     }).then(function (attachments) {
-      let base64pdfs = [];
+      let addresses = [];
       attachments.forEach(attachment => {
         let beg_index = 0;
         let found = false;
@@ -78,19 +78,27 @@ router.get('/read-email', (req, res) => {
           base_val += attachment_arr[i];
         }
         
-        base64pdfs.push(base_val)
         let fname = generateFilename('.pdf');
         insertPDFtoDoc(attachment.address, fname);
-        addressChecker(attachment.address, (err, exists) => {
-          if (err) {
-            createAddress(attachment.address, (err, created) => {
+        if (addresses.indexOf(attachment.address) === -1) {
+          addresses.push(attachment.address);
+        }
+        base64.base64Decode(base_val, `/home/Documents/docServer/public/files/${fname}`);
+      });
 
+      addresses.forEach((address) => {
+        addressChecker(address, (err, exists) => {
+          if (err) {
+            createAddress(address, (err, created) => {
+              if (created) {
+                res.send();
+              }
             });
+          } else {
+            res.send();
           }
-          let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/public/files/${fname}`);
         });
       })
-      res.json(base64pdfs)
     });
 });
 });
