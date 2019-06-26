@@ -29,17 +29,15 @@ var config = {
 
 router.get('/read-email', (req, res) => {
   let address_regex = /\d+\s[A-z]+\s{0,1}[A-z]+/i;
-  //use str.match(address_regex);
+
   imaps.connect(config).then(function (connection) {
- 
     connection.openBox('INBOX').then(function () {
  
         var searchCriteria = ['UNSEEN'];
         var fetchOptions = {
           bodies: ['HEADER', 'TEXT'],
-          markSeen: false
+          markSeen: true
       }; 
-        // retrieve only the headers of the messages
         return connection.search(searchCriteria, fetchOptions);
     }).then(function (messages) {
         var attachments = [];
@@ -81,8 +79,8 @@ router.get('/read-email', (req, res) => {
         }
         
         base64pdfs.push(base_val)
-
-        let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/${attachment.address}.pdf`);
+        let fname = generateFilename('.pdf');
+        let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/${fname}.pdf`);
       })
       res.json(base64pdfs)
     });
@@ -197,7 +195,7 @@ router.post('/', (req, res, next) => {
   const image = req.body.data;
   let filename = req.body.fileName;
   if (!filename) {
-    filename = generateFilename();
+    filename = generateFilename('.jpg');
   } else {
     filename = filename.slice(0, filename.indexOf('.'));
     filename = filename + '.jpg';
@@ -375,14 +373,14 @@ router.post('/address', (req, res) => {
   })
 });
 
-function generateFilename() {
+function generateFilename(type) {
   const letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let filename = '';
   while (filename.length < 10) {
     const letterIndex = Math.floor(Math.random() * 62);
     filename += letters[letterIndex];
   }
-  filename += '.jpg';
+  filename += type;
   return filename;
 }
 
@@ -395,6 +393,11 @@ function compressit () {
         ]
     }); 
   })();
+}
+
+function insertPDFtoDoc(address, filename) {
+  let new_doc = new Document();
+  new_doc
 }
 
 module.exports = router;
