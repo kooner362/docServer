@@ -80,7 +80,15 @@ router.get('/read-email', (req, res) => {
         
         base64pdfs.push(base_val)
         let fname = generateFilename('.pdf');
-        let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/${fname}.pdf`);
+        insertPDFtoDoc(attachment.address, fname);
+        addressChecker(attachment.address, (err, exists) => {
+          if (err) {
+            createAddress(attachment.address, (err, created) => {
+
+            });
+          }
+          let decodedBase64 = base64.base64Decode(base_val, `/home/Documents/docServer/public/files/${fname}`);
+        });
       })
       res.json(base64pdfs)
     });
@@ -397,7 +405,39 @@ function compressit () {
 
 function insertPDFtoDoc(address, filename) {
   let new_doc = new Document();
-  new_doc
+  new_doc.address = address;
+  new_doc.dateCreated = new Date();
+  new_doc.tags = [];
+  new_doc.fileLocation = `public/files/${filename}`;
+  new_doc.save((err, saved) => {
+    if (saved) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
+function addressChecker(address, callback) {
+  Address.findOne({address: address}, (err, found) => {
+    if (found) {
+      return callback(null, true);
+    } else {
+      return callback(true, null);
+    }
+  });
+}
+
+function createAddress(address, callback) {
+  let new_address = new Address();
+  new_address.address = address;
+  new_address.save((err, done) => {
+    if (done) {
+      return callback(null, true);
+    } else {
+      return callback(true, null);
+    }
+  });
 }
 
 module.exports = router;
