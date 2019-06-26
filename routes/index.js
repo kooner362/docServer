@@ -42,7 +42,7 @@ router.get('/read-email', (req, res) => {
     }).then(function (messages) {
         var attachments = [];
         messages.forEach(function (message) {
-            if(message.parts[1].body.subject[0] === '452 fleming ave') {
+            if(message.parts[1].body.subject[0] === 'Fwd: 1039 Stewart') {
               attachments.push(message.parts[0].body)
             }
         });
@@ -76,16 +76,11 @@ router.get('/read-email', (req, res) => {
         for (let i=beg_index; i <= end_index; i++) {
           base_val += attachment_arr[i];
         }
-
+        
         base64pdfs.push(base_val)
-        let decodedBase64 = base64.base64Decode(base_val, 'test.pdf');
-        fs.writeFile("/home/Documents/docServer/test.pdf", decodedBase64, function(err) {
-          if(err) {
-              return console.log(err);
-          }
-          res.json(base64pdfs)
-          console.log("The file was saved!");
-          }); 
+
+        let decodedBase64 = base64.base64Decode(base_val, '/home/Documents/docServer/test.pdf');
+        res.json(base64pdfs)
       })
     });
 });
