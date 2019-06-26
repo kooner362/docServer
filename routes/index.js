@@ -28,6 +28,8 @@ var config = {
 };
 
 router.get('/read-email', (req, res) => {
+  let address_regex = /[0-9]*\s*[a-zA-Z0-9]*\s*[a-zA-Z0-9]* ave|street|drive|dr|st/;
+  //use str.match(address_regex);
   imaps.connect(config).then(function (connection) {
  
     connection.openBox('INBOX').then(function () {
