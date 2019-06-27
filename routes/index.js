@@ -203,6 +203,7 @@ router.post('/', (req, res, next) => {
   let doc = new Document();
   doc.address = req.body.address;
   doc.dateCreated = new Date();
+  doc.type = 'image';
   let tags = [];
   req.body.tags.forEach(function(tag) {
     tags.push(tag.name);
@@ -423,6 +424,7 @@ function insertPDFtoDoc(address, filename) {
   new_doc.address = address;
   new_doc.dateCreated = new Date();
   new_doc.tags = [];
+  new_doc.type = 'pdf';
   new_doc.fileLocation = `public/files/${filename}`;
   new_doc.save((err, saved) => {
     if (saved) {
