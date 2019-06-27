@@ -380,13 +380,20 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/address', (req, res) => {
   const address = req.body.address;
-  let add = new Address();
-  add.address = address;
-  add.save(function(err, done) {
-    if (done) {
-      res.sendStatus(200);
+
+  Address.findOne({address: address}, (err, found) => {
+    if (found) {
+      res.json({success: false});
+    } else {
+      let add = new Address();
+      add.address = address;
+      add.save(function(err, done) {
+        if (done) {
+          res.json({success: true})
+        }
+      });
     }
-  })
+  });
 });
 
 function generateFilename(type) {
